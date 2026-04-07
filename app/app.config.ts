@@ -1,72 +1,92 @@
 export default defineAppConfig({
-  ui: {
-    colors: {
-      primary: 'green',
-      neutral: 'slate'
+    ui: {
+        colors: {
+            primary: 'green',
+            neutral: 'slate'
+        },
+        footer: {
+            slots: {
+                root: 'border-t border-default',
+                left: 'text-sm text-muted'
+            }
+        }
+    },
+    seo: {
+        siteName: 'FormForge Wiki'
+    },
+    header: {
+        title: 'FormForge Wiki',
+        to: '/',
+        logo: {
+            alt: '',
+            light: '',
+            dark: ''
+        },
+        search: true,
+        colorMode: true,
+        links: [
+            {
+                'label': 'Backend',
+                'icon': 'i-lucide-github',
+                'to': 'https://github.com/EvanSchleret/FormForge',
+                'target': '_blank',
+                'aria-label': 'FormForge backend repository'
+            },
+            {
+                'label': 'Client',
+                'icon': 'i-lucide-github',
+                'to': 'https://github.com/EvanSchleret/FormForgeClient',
+                'target': '_blank',
+                'aria-label': 'FormForge Client repository'
+            }
+        ]
     },
     footer: {
-      slots: {
-        root: 'border-t border-default',
-        left: 'text-sm text-muted'
-      }
-    }
-  },
-  seo: {
-    siteName: 'Nuxt Docs Template'
-  },
-  header: {
-    title: '',
-    to: '/',
-    logo: {
-      alt: '',
-      light: '',
-      dark: ''
+        credits: 'Evan Schleret · FormForge',
+        colorMode: false,
+        links: [
+            {
+                'label': 'Backend package',
+                'icon': 'i-lucide-github',
+                'to': 'https://github.com/EvanSchleret/FormForge',
+                'target': '_blank',
+                'aria-label': 'FormForge backend repository'
+            },
+            {
+                'label': 'Client package',
+                'icon': 'i-lucide-github',
+                'to': 'https://github.com/EvanSchleret/FormForgeClient',
+                'target': '_blank',
+                'aria-label': 'FormForge Client repository'
+            },
+            {
+                'label': 'Docs source',
+                'icon': 'i-lucide-github',
+                'to': 'https://github.com/EvanSchleret/formforge.schleret.ch',
+                'target': '_blank',
+                'aria-label': 'FormForge wiki source repository'
+            }
+        ]
     },
-    search: true,
-    colorMode: true,
-    links: [{
-      'icon': 'i-simple-icons-github',
-      'to': 'https://github.com/nuxt-ui-templates/docs',
-      'target': '_blank',
-      'aria-label': 'GitHub'
-    }]
-  },
-  footer: {
-    credits: `Built with Nuxt UI • © ${new Date().getFullYear()}`,
-    colorMode: false,
-    links: [{
-      'icon': 'i-simple-icons-discord',
-      'to': 'https://go.nuxt.com/discord',
-      'target': '_blank',
-      'aria-label': 'Nuxt on Discord'
-    }, {
-      'icon': 'i-simple-icons-x',
-      'to': 'https://go.nuxt.com/x',
-      'target': '_blank',
-      'aria-label': 'Nuxt on X'
-    }, {
-      'icon': 'i-simple-icons-github',
-      'to': 'https://github.com/nuxt/ui',
-      'target': '_blank',
-      'aria-label': 'Nuxt UI on GitHub'
-    }]
-  },
-  toc: {
-    title: 'Table of Contents',
-    bottom: {
-      title: 'Community',
-      edit: 'https://github.com/nuxt-ui-templates/docs/edit/main/content',
-      links: [{
-        icon: 'i-lucide-star',
-        label: 'Star on GitHub',
-        to: 'https://github.com/nuxt/ui',
-        target: '_blank'
-      }, {
-        icon: 'i-lucide-book-open',
-        label: 'Nuxt UI docs',
-        to: 'https://ui.nuxt.com/docs/getting-started/installation/nuxt',
-        target: '_blank'
-      }]
+    toc: {
+        title: 'On this page',
+        bottom: {
+            title: 'Resources',
+            edit: 'https://github.com/EvanSchleret/formforge.schleret.ch/edit/main/content',
+            links: [
+                {
+                    icon: 'i-lucide-box',
+                    label: 'Backend package',
+                    to: 'https://packagist.org/packages/evanschleret/formforge',
+                    target: '_blank'
+                },
+                {
+                    icon: 'i-lucide-box',
+                    label: 'Client package',
+                    to: 'https://www.npmjs.com/package/@evanschleret/formforgeclient',
+                    target: '_blank'
+                }
+            ]
+        }
     }
-  }
 })

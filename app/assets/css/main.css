@@ -23,3 +23,8 @@
 :root {
   --ui-container: var(--container-8xl);
 }
+
+.hero-stars-fade {
+  -webkit-mask-image: linear-gradient(to bottom, black 18%, rgba(0, 0, 0, 0.78) 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 18%, rgba(0, 0, 0, 0.78) 60%, transparent 100%);
+}

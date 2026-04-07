@@ -1,72 +1,195 @@
 <script setup lang="ts">
-import type { ContentNavigationItem } from '@nuxt/content'
+import type { NavigationMenuItem } from '@nuxt/ui'
 
-const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
+interface GithubStarsResponse {
+    total: number
+}
 
-const { header } = useAppConfig()
+interface RepositoryLabelMap {
+    [key: string]: string
+}
+
+const runtimeConfig = useRuntimeConfig()
+const route = useRoute()
+
+const githubConfig = runtimeConfig.public.github
+const githubProfile = githubConfig.profile
+const repositorySlugs = githubConfig.repositories
+
+const repositoryLabels: RepositoryLabelMap = {
+    'EvanSchleret/FormForge': 'FormForge Backend',
+    'EvanSchleret/FormForgeClient': 'FormForge Client',
+    'EvanSchleret/laravel-typebridge': 'Laravel Typebridge',
+    'EvanSchleret/lara-mjml': 'Lara MJML',
+    'EvanSchleret/laravel-user-presence': 'Laravel User Presence'
+}
+
+function sectionFromPath(path: string): string {
+    return path.split('/').filter(Boolean)[0] ?? ''
+}
+
+function isSectionActive(section: string): boolean {
+    return sectionFromPath(route.path) === section
+}
+
+function formatRepositoryLabel(slug: string): string {
+    return repositoryLabels[slug] ?? slug
+}
+
+const moduleItems = computed<NavigationMenuItem[]>(() => {
+    return repositorySlugs.map((slug: string) => ({
+        label: formatRepositoryLabel(slug),
+        icon: 'i-lucide-package',
+        to: `https://github.com/${slug}`,
+        target: '_blank'
+    }))
+})
+
+const navigationItems = computed<NavigationMenuItem[]>(() => [
+    {
+        label: 'Docs',
+        icon: 'i-lucide-book-open',
+        to: '/getting-started',
+        active: isSectionActive('getting-started')
+    },
+    {
+        label: 'Backend',
+        icon: 'i-lucide-database',
+        to: '/backend/overview',
+        active: isSectionActive('backend')
+    },
+    {
+        label: 'Client',
+        icon: 'i-lucide-monitor',
+        to: '/client/overview',
+        active: isSectionActive('client')
+    },
+    {
+        label: 'AI',
+        icon: 'i-lucide-bot',
+        to: '/mcp-ai',
+        active: isSectionActive('mcp-ai')
+    },
+    {
+        label: 'Community',
+        icon: 'i-lucide-messages-square',
+        to: '/community/getting-help',
+        active: isSectionActive('community')
+    },
+    {
+        label: 'Modules',
+        icon: 'i-lucide-box',
+        children: moduleItems.value
+    },
+    {
+        label: 'Resources',
+        icon: 'i-lucide-compass',
+        children: [
+            {
+                label: 'Packagist',
+                icon: 'i-lucide-box',
+                to: 'https://packagist.org/packages/evanschleret/formforge',
+                target: '_blank'
+            },
+            {
+                label: 'NPM',
+                icon: 'i-lucide-box',
+                to: 'https://www.npmjs.com/package/@evanschleret/formforgeclient',
+                target: '_blank'
+            },
+            {
+                label: 'MCP Endpoint',
+                icon: 'i-lucide-plug',
+                to: 'https://formforge.schleret.ch/mcp',
+                target: '_blank'
+            }
+        ]
+    }
+])
+
+const { data: githubStars } = await useAsyncData<GithubStarsResponse>('github-stars', () => {
+    return $fetch<GithubStarsResponse>('/api/github-stars')
+}, {
+    default: () => ({ total: 0 })
+})
+
+const formattedStars = computed<string>(() => {
+    const value = githubStars.value?.total ?? 0
+    return new Intl.NumberFormat('en-US', {
+        notation: 'compact',
+        maximumFractionDigits: 1
+    }).format(value)
+})
 </script>
 
 <template>
-  <UHeader
-    :ui="{ center: 'flex-1' }"
-    :to="header?.to || '/'"
-  >
-    <UContentSearchButton
-      v-if="header?.search"
-      :collapsed="false"
-      class="w-full"
-    />
-
-    <template
-      v-if="header?.logo?.dark || header?.logo?.light || header?.title"
-      #title
+    <UHeader
+        :ui="{
+            root: 'border-b border-default bg-default/90 backdrop-blur',
+            left: 'min-w-0 lg:flex-1',
+            center: 'hidden lg:flex min-w-0',
+            right: 'items-center gap-1.5 lg:flex-1 lg:justify-end'
+        }"
     >
-      <UColorModeImage
-        v-if="header?.logo?.dark || header?.logo?.light"
-        :light="header?.logo?.light!"
-        :dark="header?.logo?.dark!"
-        :alt="header?.logo?.alt"
-        class="h-6 w-auto shrink-0"
-      />
+        <template #left>
+            <NuxtLink
+                to="/"
+                class="flex items-center gap-2"
+            >
+                <UIcon
+                    name="i-lucide-shield-check"
+                    class="size-5 text-primary"
+                />
+                <span class="text-base font-semibold tracking-tight text-highlighted">
+                    FormForge
+                </span>
+            </NuxtLink>
+        </template>
 
-      <span v-else-if="header?.title">
-        {{ header.title }}
-      </span>
-    </template>
+        <template #default>
+            <UNavigationMenu
+                color="neutral"
+                variant="link"
+                :items="navigationItems"
+                highlight
+                class="hidden lg:flex"
+                :ui="{
+                    list: 'gap-1 xl:gap-1.5 flex-nowrap',
+                    item: 'shrink-0',
+                    link: 'px-3 py-2 text-sm font-medium',
+                    linkLabel: '!max-w-none !overflow-visible !text-clip !whitespace-nowrap'
+                }"
+            />
+        </template>
 
-    <template
-      v-else
-      #left
-    >
-      <NuxtLink :to="header?.to || '/'">
-        <AppLogo class="w-auto h-6 shrink-0" />
-      </NuxtLink>
+        <template #right>
+            <UContentSearchButton
+                :collapsed="true"
+                color="neutral"
+                variant="ghost"
+            />
 
-      <TemplateMenu />
-    </template>
+            <UColorModeButton />
 
-    <template #right>
-      <UContentSearchButton
-        v-if="header?.search"
-        class="lg:hidden"
-      />
+            <UButton
+                color="neutral"
+                variant="ghost"
+                icon="i-lucide-github"
+                :to="githubProfile"
+                target="_blank"
+                :label="formattedStars"
+            />
+        </template>
 
-      <UColorModeButton v-if="header?.colorMode" />
-
-      <template v-if="header?.links">
-        <UButton
-          v-for="(link, index) of header.links"
-          :key="index"
-          v-bind="{ color: 'neutral', variant: 'ghost', ...link }"
-        />
-      </template>
-    </template>
-
-    <template #body>
-      <UContentNavigation
-        highlight
-        :navigation="navigation"
-      />
-    </template>
-  </UHeader>
+        <template #body>
+            <UNavigationMenu
+                color="neutral"
+                variant="link"
+                :items="navigationItems"
+                highlight
+                orientation="vertical"
+                class="-mx-2.5 lg:hidden"
+            />
+        </template>
+    </UHeader>
 </template>

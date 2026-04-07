@@ -1,7 +1,11 @@
+import { getRequestURL } from 'h3'
 import { queryCollection } from '@nuxt/content/server'
+import { defineMcpTool } from '@nuxtjs/mcp-toolkit/server'
+import { useEvent } from 'nitropack/runtime/internal/context'
+import type {} from '../../../.nuxt/content/types'
 
 export default defineMcpTool({
-  description: `Lists all available documentation pages with their categories and basic information.
+    description: `Lists all available documentation pages with their categories and basic information.
 
 WHEN TO USE: Use this tool when you need to EXPLORE or SEARCH for documentation about a topic but don't know the exact page path. Common scenarios:
 - "Find documentation about markdown features" - explore available guides
@@ -19,32 +23,32 @@ OUTPUT: Returns a structured list with:
 - path: Exact path for use with get-page
 - description: Brief summary of page content
 - url: Full URL for reference`,
-  cache: '1h',
-  handler: async () => {
-    const event = useEvent()
-    const url = getRequestURL(event)
-    const siteUrl = import.meta.dev ? `${url.protocol}//${url.hostname}:${url.port}` : url.origin
+    cache: '1h',
+    handler: async () => {
+        const event = useEvent()
+        const url = getRequestURL(event)
+        const siteUrl = import.meta.dev ? `${url.protocol}//${url.hostname}:${url.port}` : url.origin
 
-    try {
-      const pages = await queryCollection(event, 'docs')
-        .select('title', 'path', 'description')
-        .all()
+        try {
+            const pages = await queryCollection(event, 'docs')
+                .select('title', 'path', 'description')
+                .all()
 
-      const result = pages.map(page => ({
-        title: page.title,
-        path: page.path,
-        description: page.description,
-        url: `${siteUrl}${page.path}`
-      }))
+            const result = pages.map(page => ({
+                title: page.title,
+                path: page.path,
+                description: page.description,
+                url: `${siteUrl}${page.path}`
+            }))
 
-      return {
-        content: [{ type: 'text', text: JSON.stringify(result, null, 2) }]
-      }
-    } catch {
-      return {
-        content: [{ type: 'text', text: 'Failed to list pages' }],
-        isError: true
-      }
+            return {
+                content: [{ type: 'text', text: JSON.stringify(result, null, 2) }]
+            }
+        } catch {
+            return {
+                content: [{ type: 'text', text: 'Failed to list pages' }],
+                isError: true
+            }
+        }
     }
-  }
 })

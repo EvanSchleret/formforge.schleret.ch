@@ -1,21 +1,25 @@
 ---
 seo:
-  title: Nuxt Docs Template
-  description: Create stunning, fast and SEO-optimized documentation sites with Nuxt UI.
+  title: FormForge Wiki
+  description: Official wiki for FormForge (Laravel backend) and FormForge Client (Nuxt 4).
 ---
 
-::u-page-hero{class="dark:bg-gradient-to-b from-neutral-900 to-neutral-950"}
+::u-page-hero{class="relative overflow-hidden dark:bg-gradient-to-b from-neutral-900 to-neutral-950"}
 ---
 orientation: horizontal
 ---
 #top
-:hero-background
+  ::div{class="pointer-events-none absolute inset-x-0 top-0 h-[34rem] overflow-hidden hero-stars-fade"}
+  :stars-bg{color="#00DC82" star-count="420" class="opacity-85"}
+  :hero-background{class="opacity-75"}
+  <div class="absolute inset-0 bg-gradient-to-b from-primary/20 via-primary/8 to-transparent"></div>
+  ::
 
 #title
-Ship Beautiful [Documentation]{.text-primary}.
+Build deterministic forms with [FormForge]{.text-primary}.
 
 #description
-Build professional documentation with Nuxt UI's powerful components, enhanced typography, and seamless Nuxt Content integration. The same system trusted by the entire [Nuxt ecosystem](https://nuxt.com).
+One backend source of truth for form schema, immutable revisions, secure HTTP APIs, staged uploads, and automation-ready submissions. Pair it with FormForge Client to render and manage forms in Nuxt 4.
 
 #links
   :::u-button
@@ -24,240 +28,272 @@ Build professional documentation with Nuxt UI's powerful components, enhanced ty
   size: xl
   trailing-icon: i-lucide-arrow-right
   ---
-  Get started
+  Start in 5 minutes
   :::
 
   :::u-button
   ---
-  icon: i-simple-icons-github
+  to: https://github.com/EvanSchleret/FormForge/stargazers
+  size: xl
   color: neutral
   variant: outline
-  size: xl
-  to: https://github.com/nuxt-ui-templates/docs
+  icon: i-lucide-github
   target: _blank
   ---
-  Use this template
+  Star FormForge
+  :::
+
+  :::u-button
+  ---
+  to: https://github.com/EvanSchleret/FormForgeClient/stargazers
+  size: xl
+  color: neutral
+  variant: outline
+  icon: i-lucide-github
+  target: _blank
+  ---
+  Star FormForge Client
   :::
 
 #default
   :::prose-pre
   ---
   code: |
-    export default defineNuxtConfig({
-      modules: [
-        '@nuxt/ui',
-        '@nuxt/content',
-        'nuxt-og-image',
-        'nuxt-llms'
-      ],
+    composer require evanschleret/formforge
+    php artisan formforge:install
+    php artisan migrate
 
-      css: ['~/assets/css/main.css']
-    })
-  filename: nuxt.config.ts
+    bun add @evanschleret/formforgeclient
+  filename: quickstart.sh
   ---
 
-  ```ts [nuxt.config.ts]
-  export default defineNuxtConfig({
-    modules: [
-      '@nuxt/ui',
-      '@nuxt/content',
-      'nuxt-og-image',
-      'nuxt-llms'
-    ],
+  ```bash [quickstart.sh]
+  composer require evanschleret/formforge
+  php artisan formforge:install
+  php artisan migrate
 
-    css: ['~/assets/css/main.css']
-  })
+  bun add @evanschleret/formforgeclient
   ```
   :::
 ::
 
 ::u-page-section{class="dark:bg-neutral-950"}
 #title
-Powered by Nuxt UI components
-
-#links
-  :::u-button
-  ---
-  color: neutral
-  size: lg
-  target: _blank
-  to: https://ui.nuxt.com/docs/getting-started/installation/nuxt
-  trailingIcon: i-lucide-arrow-right
-  variant: subtle
-  ---
-  Explore Nuxt UI
-  :::
+Choose your integration path
+#description
+Start narrow, keep a deterministic backend core, then scale to advanced API and frontend workflows.
 
 #features
   :::u-page-feature
   ---
-  icon: i-lucide-palette
+  icon: i-lucide-server
   ---
   #title
-  100+ UI Components
+  Backend only
 
   #description
-  Access the complete Nuxt UI component library. From badges to modals, everything styled and accessible out of the box.
+  Define and submit forms in Laravel code using the `Form` facade without exposing package HTTP routes.
   :::
 
   :::u-page-feature
   ---
-  icon: i-lucide-type
+  icon: i-lucide-globe
   ---
   #title
-  Beautiful Typography
+  Backend HTTP API
 
   #description
-  Pre-styled prose components with perfect visual harmony. No need for @tailwindcss/typography - get precise control over every element.
+  Expose built-in FormForge endpoints with configurable auth, middleware, abilities, and strict server-side validation.
   :::
 
   :::u-page-feature
   ---
-  icon: i-lucide-layers
+  icon: i-lucide-route
   ---
   #title
-  Rich Prose Components
+  Scoped routes with owner context
 
   #description
-  Accordions, cards, callouts, tabs, steps, code blocks, and more - all provided by Nuxt UI for interactive documentation.
+  Run endpoints under prefixes like `/users/{user}` or `/teams/{team}` and resolve ownership directly from route params.
   :::
 
   :::u-page-feature
   ---
-  icon: i-lucide-search
+  icon: i-lucide-shield
   ---
   #title
-  Built-in Search
+  Policy or gate authorization
 
   #description
-  Full-text search with ContentSearch component. No need for Algolia - instant, relevant results with keyboard shortcuts (⌘K).
+  Add fail-closed authorization with scoped policy mode, endpoint abilities, and ownership-aware access checks.
   :::
 
   :::u-page-feature
   ---
-  icon: i-lucide-navigation
+  icon: i-lucide-monitor
   ---
   #title
-  Smart Navigation
+  Renderer mode (ship fast)
 
   #description
-  Auto-generated navigation with ContentNavigation and ContentToc components. Sticky table of contents and prev/next links.
+  Mount `<FormForgeRenderer>` with a form key and go live fast with built-in fetch, progress, and submit handling.
   :::
 
   :::u-page-feature
   ---
-  icon: i-lucide-moon
+  icon: i-lucide-sliders-horizontal
   ---
   #title
-  Dark Mode Ready
+  Controlled and admin mode
 
   #description
-  Automatic theme switching with smooth transitions. Respects system preferences and remembers user choice.
+  Use composables for custom UX, scoped calls, categories, response moderation, revisions, and diff workflows.
+  :::
+
+  :::u-page-feature
+  ---
+  icon: i-lucide-bot
+  ---
+  #title
+  Submission automations
+
+  #description
+  Register sync or queued automation handlers to execute app business logic immediately after persisted submissions.
+  :::
+
+  :::u-page-feature
+  ---
+  icon: i-lucide-file-down
+  ---
+  #title
+  Response exports (CSV/JSONL)
+
+  #description
+  Export submissions by form/version/date filters via HTTP, Facade, or Artisan for BI pipelines, audits, and data workflows.
+  :::
+
+  :::u-page-feature
+  ---
+  icon: i-lucide-shield-ellipsis
+  ---
+  #title
+  GDPR retention engine
+
+  #description
+  Apply global, form-level, or response-level privacy policies with anonymization/deletion actions and dry-run controls.
   :::
 ::
 
 ::u-page-section{class="dark:bg-neutral-950"}
 #title
-Enhanced with Nuxt Content
+AI-ready docs with MCP Toolkit
+#description
+`@nuxtjs/mcp-toolkit` is integrated. This wiki is exposed as an MCP server so AI assistants can discover and read your docs.
 
 #links
   :::u-button
   ---
+  to: /mcp
   color: neutral
-  size: lg
-  target: _blank
-  to: https://content.nuxt.com/docs/getting-started/installation
-  trailingIcon: i-lucide-arrow-right
-  variant: subtle
+  variant: outline
+  icon: i-lucide-plug
   ---
-  Explore Nuxt Content
+  Open MCP endpoint
   :::
 
-#features
-  :::u-page-feature
+  :::u-button
   ---
-  icon: i-simple-icons-markdown
+  to: /mcp-ai
+  icon: i-lucide-book-open
+  color: neutral
+  variant: outline
   ---
-  #title
-  MDC Enhanced Markdown
-
-  #description
-  Write in Markdown while embedding Vue components. Seamlessly integrate interactive elements in your content.
+  Read MCP/AI guide
   :::
 
-  :::u-page-feature
+  :::u-button
   ---
-  icon: i-lucide-file-text
+  to: /mcp-ai/connect-your-client
+  icon: i-lucide-settings-2
+  color: primary
+  variant: solid
   ---
-  #title
-  File-based Routing
-
-  #description
-  Organize content in folders and files. Your documentation structure automatically becomes your navigation.
+  Configure your MCP client
   :::
 
-  :::u-page-feature
+::card-group
+  :::card
   ---
-  icon: i-lucide-code
+  title: Built-in tools
+  icon: i-lucide-wrench
   ---
-  #title
-  Syntax Highlighting
-
-  #description
-  Beautiful code blocks with language detection, line numbers, and copy buttons. Support for 100+ languages.
+  `list-pages` and `get-page` are live and let assistants discover and read wiki content.
   :::
 
-  :::u-page-feature
+  :::card
   ---
-  icon: i-lucide-database
+  title: Zero-config discovery
+  icon: i-lucide-folder-search
   ---
-  #title
-  Content Database
-
-  #description
-  Query your content with a MongoDB-like API. Filter, sort, and search through your documentation programmatically.
+  Add files under `server/mcp/tools`, `server/mcp/prompts`, and `server/mcp/resources`.
   :::
 
-  :::u-page-feature
+  :::card
   ---
-  icon: i-lucide-file-code
+  title: Works with common IDEs
+  icon: i-lucide-message-circle
   ---
-  #title
-  Frontmatter Support
-
-  #description
-  Add metadata to your content files. Define SEO tags, navigation properties, and custom fields.
+  Connect from Cursor, VS Code, Claude Code, and other MCP clients with the `/mcp` URL.
   :::
-
-  :::u-page-feature
-  ---
-  icon: i-lucide-git-branch
-  ---
-  #title
-  Version Control
-
-  #description
-  Content lives in your repository. Branch, review, and deploy documentation alongside your code.
-  :::
+::
 ::
 
 ::u-page-section{class="dark:bg-gradient-to-b from-neutral-950 to-neutral-900"}
+  :::callout
+  ---
+  icon: i-lucide-star
+  color: warning
+  variant: subtle
+  ---
+  If this wiki helped you ship faster, starring the repos has a direct impact on roadmap visibility and adoption.
+  :::
+
+  :::card-group
+    ::::card
+    ---
+    title: FormForge (Laravel backend)
+    icon: i-lucide-database
+    to: https://github.com/EvanSchleret/FormForge/stargazers
+    target: _blank
+    ---
+    [![FormForge Stars](https://img.shields.io/github/stars/EvanSchleret/FormForge?style=for-the-badge&logo=github)](https://github.com/EvanSchleret/FormForge/stargazers)
+    ::::
+
+    ::::card
+    ---
+    title: FormForge Client (Nuxt frontend)
+    icon: i-lucide-monitor
+    to: https://github.com/EvanSchleret/FormForgeClient/stargazers
+    target: _blank
+    ---
+    [![FormForge Client Stars](https://img.shields.io/github/stars/EvanSchleret/FormForgeClient?style=for-the-badge&logo=github)](https://github.com/EvanSchleret/FormForgeClient/stargazers)
+    ::::
+  :::
+
   :::u-page-c-t-a
   ---
   links:
-    - label: Start building
-      to: '/getting-started'
-      trailingIcon: i-lucide-arrow-right
-    - label: View on GitHub
-      to: 'https://github.com/nuxt-ui-templates/docs'
+    - label: FormForge backend package
+      to: 'https://github.com/EvanSchleret/FormForge'
+      target: _blank
+      icon: i-lucide-github
+    - label: FormForge Client package
+      to: 'https://github.com/EvanSchleret/FormForgeClient'
       target: _blank
       variant: subtle
-      icon: i-simple-icons-github
-  title: Ready to build an amazing documentation?
-  description: Join thousands of developers building with Nuxt and Nuxt UI. Get this template and start shipping today.
+      icon: i-lucide-github
+  title: Ship forms with confidence
+  description: Keep business rules centralized, expose only what you need, and scale from one form to multi-owner production workflows.
   class: dark:bg-neutral-950
   ---
-
-  :stars-bg
-  :::
 ::
