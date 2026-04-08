@@ -209,7 +209,7 @@ onBeforeUnmount(() => {
 })
 
 watch(() => [props.quantity, props.staticity, props.ease, props.color], () => {
-    if (process.client) {
+    if (import.meta.client) {
         rebuildScene()
     }
 })
