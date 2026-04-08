@@ -67,9 +67,14 @@ export default defineNuxtConfig({
             routes: [
                 '/'
             ],
-            crawlLinks: true,
+            crawlLinks: false,
             autoSubfolderIndex: false
         }
+    },
+
+    routeRules: {
+        '/**': { prerender: true },
+        '/mcp/**': { prerender: false }
     },
 
     eslint: {
