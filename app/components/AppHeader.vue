@@ -28,7 +28,12 @@ function sectionFromPath(path: string): string {
     return path.split('/').filter(Boolean)[0] ?? ''
 }
 
-function isSectionActive(section: string): boolean {
+function isSectionActive(section: string | string[]): boolean {
+    if (Array.isArray(section)) {
+        if (section.some(s => isSectionActive(s))) {
+            return true
+        }
+    }
     return sectionFromPath(route.path) === section
 }
 
@@ -50,19 +55,7 @@ const navigationItems = computed<NavigationMenuItem[]>(() => [
         label: 'Docs',
         icon: 'i-lucide-book-open',
         to: '/getting-started',
-        active: isSectionActive('getting-started')
-    },
-    {
-        label: 'Backend',
-        icon: 'i-lucide-database',
-        to: '/backend/overview',
-        active: isSectionActive('backend')
-    },
-    {
-        label: 'Client',
-        icon: 'i-lucide-monitor',
-        to: '/client/overview',
-        active: isSectionActive('client')
+        active: isSectionActive(['getting-started', 'backend', 'client'])
     },
     {
         label: 'AI',
@@ -128,7 +121,8 @@ const formattedStars = computed<string>(() => {
             root: 'border-b border-default bg-default/90 backdrop-blur',
             left: 'min-w-0 lg:flex-1',
             center: 'hidden lg:flex min-w-0',
-            right: 'items-center gap-1.5 lg:flex-1 lg:justify-end'
+            right: 'items-center gap-1.5 lg:flex-1 lg:justify-end',
+            body: 'fixed'
         }"
     >
         <template #left>
@@ -151,7 +145,6 @@ const formattedStars = computed<string>(() => {
                 color="neutral"
                 variant="link"
                 :items="navigationItems"
-                highlight
                 class="hidden lg:flex"
                 :ui="{
                     list: 'gap-1 xl:gap-1.5 flex-nowrap',

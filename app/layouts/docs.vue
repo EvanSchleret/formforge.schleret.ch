@@ -149,7 +149,7 @@ const currentSectionNavigation = computed<ContentNavigationItem[]>(() => {
             v-if="sectionLinks.length > 0"
             class="w-full border-y border-default bg-elevated/40"
         >
-            <UContainer class="py-1">
+            <UContainer>
                 <UNavigationMenu
                     color="neutral"
                     variant="link"

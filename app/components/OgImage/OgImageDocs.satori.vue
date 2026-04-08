@@ -52,10 +52,10 @@ const description = computed(() => (props.description || '').slice(0, 200))
             </defs>
         </svg>
 
-        <div class="pl-[100px]">
+        <div class="pl-25">
             <p
                 v-if="headline"
-                class="uppercase text-[24px] text-[#00DC82] mb-4 font-semibold"
+                class="uppercase text-[24px] text-green-400 mb-4 font-semibold"
             >
                 {{ headline }}
             </p>
@@ -67,7 +67,7 @@ const description = computed(() => (props.description || '').slice(0, 200))
             </h1>
             <p
                 v-if="description"
-                class="text-[32px] text-[#E4E4E7] leading-tight w-[700px]"
+                class="text-[32px] text-[#E4E4E7] leading-tight w-175"
             >
                 {{ description }}
             </p>
