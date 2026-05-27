@@ -188,7 +188,7 @@ Start narrow, keep a deterministic backend core, then scale to advanced API and 
 #title
 AI-ready docs with MCP Toolkit
 #description
-`@nuxtjs/mcp-toolkit` is integrated. This wiki is exposed as an MCP server so AI assistants can discover and read your docs.
+This wiki is exposed as an MCP server so AI assistants can discover and read your docs.
 
 #links
   :::u-button
