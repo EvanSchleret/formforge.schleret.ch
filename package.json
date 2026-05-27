@@ -19,6 +19,7 @@
         "@nuxt/ui": "^4.8.0",
         "@nuxtjs/mcp-toolkit": "^0.17.2",
         "@nuxtjs/mdc": "^0.22.0",
+        "@types/node": "^25.9.1",
         "@vercel/analytics": "^2.0.1",
         "@vueuse/core": "^14.3.0",
         "better-sqlite3": "^12.10.0",

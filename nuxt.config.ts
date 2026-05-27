@@ -56,26 +56,11 @@ export default defineNuxtConfig({
         }
     },
 
-    routeRules: {
-        '/**': { prerender: true },
-        '/mcp/**': { prerender: false }
-    },
-
     experimental: {
         asyncContext: true
     },
 
     compatibilityDate: '2024-07-11',
-
-    nitro: {
-        prerender: {
-            routes: [
-                '/'
-            ],
-            crawlLinks: false,
-            autoSubfolderIndex: false
-        }
-    },
 
     eslint: {
         config: {
