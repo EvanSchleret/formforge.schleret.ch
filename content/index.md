@@ -24,7 +24,7 @@ One backend source of truth for form schema, immutable revisions, secure HTTP AP
 #links
   :::u-button
   ---
-  to: /getting-started
+  to: /getting-started/installation/backend
   size: xl
   trailing-icon: i-lucide-arrow-right
   ---
@@ -137,6 +137,39 @@ Start narrow, keep a deterministic backend core, then scale to advanced API and 
 
   #description
   Mount `<FormForgeRenderer>` with a form key and go live fast with built-in fetch, progress, and submit handling.
+  :::
+
+  :::u-page-feature
+  ---
+  icon: i-lucide-layers-3
+  ---
+  #title
+  Architecture
+
+  #description
+  Understand how the backend and client share one schema and split responsibilities.
+  :::
+
+  :::u-page-feature
+  ---
+  icon: i-lucide-layers-3
+  ---
+  #title
+  Standalone builder and preview
+
+  #description
+  Expose save and publish from your own toolbar, hide settings for system forms, and keep renderer navigation visible in playground-style previews.
+  :::
+
+  :::u-page-feature
+  ---
+  icon: i-lucide-circle-help
+  ---
+  #title
+  How do I?
+
+  #description
+  Start from a task instead of a package when you already know the outcome you want.
   :::
 
   :::u-page-feature

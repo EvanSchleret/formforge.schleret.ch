@@ -13,6 +13,8 @@ const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
 
 const defaultSectionIcons: Record<string, string> = {
     'getting-started': 'i-lucide-rocket',
+    'architecture': 'i-lucide-layers-3',
+    'how-do-i': 'i-lucide-circle-help',
     'backend': 'i-lucide-database',
     'client': 'i-lucide-monitor',
     'mcp-ai': 'i-lucide-bot',
@@ -21,17 +23,29 @@ const defaultSectionIcons: Record<string, string> = {
 
 const defaultSectionPaths: Record<string, string> = {
     'getting-started': '/getting-started',
+    'architecture': '/architecture',
+    'how-do-i': '/how-do-i',
     'backend': '/backend/overview',
     'client': '/client/overview',
     'mcp-ai': '/mcp-ai',
     'community': '/community/getting-help'
 }
 
+const sectionOrder = [
+    'getting-started',
+    'architecture',
+    'how-do-i',
+    'backend',
+    'client',
+    'mcp-ai',
+    'community'
+]
+
 const sectionChildOrder: Record<string, string[]> = {
     'backend': ['overview', 'forms', 'http-api', 'operations'],
     'client': ['overview', 'composables', 'components', 'reference'],
     'mcp-ai': ['mcp-ai'],
-    'community': ['getting-help', 'backend-roadmap', 'client-roadmap']
+    'community': ['getting-help', 'roadmaps']
 }
 
 function hasPath(item: ContentNavigationItem): item is ContentNavigationItem & { path: string } {
@@ -72,13 +86,15 @@ function normalizeNavigationItem(item: ContentNavigationItem, depth: number = 0)
     const sectionPath = depth === 0
         ? (defaultSectionPaths[sectionKey] ?? resolvedPath)
         : resolvedPath
-    const icon = typeof item.icon === 'string' && item.icon.startsWith('i-lucide-')
-        ? item.icon
-        : defaultSectionIcons[sectionKey]
+    const icon = depth === 0
+        ? (typeof item.icon === 'string' && item.icon.startsWith('i-lucide-')
+            ? item.icon
+            : defaultSectionIcons[sectionKey])
+        : undefined
 
     return {
         ...item,
-        icon,
+        ...(icon !== undefined ? { icon } : {}),
         path: sectionPath,
         children
     }
@@ -88,6 +104,20 @@ const normalizedNavigation = computed<ContentNavigationItem[]>(() => {
     return (navigation?.value ?? [])
         .map(item => normalizeNavigationItem(item))
         .filter((item): item is ContentNavigationItem => item !== null)
+        .sort((a, b) => {
+            const aKey = sectionKeyFromPath(a.path)
+            const bKey = sectionKeyFromPath(b.path)
+            const aIndex = sectionOrder.indexOf(aKey)
+            const bIndex = sectionOrder.indexOf(bKey)
+            const aWeight = aIndex === -1 ? Number.POSITIVE_INFINITY : aIndex
+            const bWeight = bIndex === -1 ? Number.POSITIVE_INFINITY : bIndex
+
+            if (aWeight !== bWeight) {
+                return aWeight - bWeight
+            }
+
+            return a.title.localeCompare(b.title)
+        })
 })
 
 const currentSectionKey = computed(() => sectionKeyFromPath(route.path))
