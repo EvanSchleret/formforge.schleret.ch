@@ -83,7 +83,6 @@ const columns = computed<FooterColumn[]>(() => [
         ]
     }
 ])
-
 </script>
 
 <template>
@@ -114,7 +113,6 @@ const columns = computed<FooterColumn[]>(() => [
                         </UButton>
                     </div>
                 </div>
-
             </div>
         </UContainer>
 
