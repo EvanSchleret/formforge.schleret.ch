@@ -31,7 +31,14 @@ useSeoMeta({
     ogDescription: description
 })
 
-const headline = computed(() => findPageHeadline(navigation?.value, page.value?.path))
+const headline = computed(() => {
+    const segments = route.path.split('/').filter(Boolean)
+    const sectionKey = segments[0] === 'docs' ? segments[1] : segments[0]
+    const docsRoot = navigation?.value?.find(item => item.path === '/docs' || item.path === '/docs/.navigation')
+    const section = docsRoot?.children?.find(item => item.path?.split('/').filter(Boolean)[1] === sectionKey)
+
+    return section?.title || findPageHeadline(navigation?.value, page.value?.path)
+})
 
 defineOgImage('DocsSatori', {
     headline: headline.value

@@ -25,7 +25,8 @@ const repositoryLabels: RepositoryLabelMap = {
 }
 
 function sectionFromPath(path: string): string {
-    return path.split('/').filter(Boolean)[0] ?? ''
+    const segments = path.split('/').filter(Boolean)
+    return segments[0] === 'docs' ? (segments[1] ?? '') : (segments[0] ?? '')
 }
 
 function isSectionActive(section: string | string[]): boolean {
@@ -54,49 +55,19 @@ const navigationItems = computed<NavigationMenuItem[]>(() => [
     {
         label: 'Docs',
         icon: 'i-lucide-book-open',
-        to: '/getting-started',
-        active: isSectionActive(['getting-started', 'backend', 'client'])
+        to: '/docs/getting-started',
+        active: isSectionActive(['getting-started', 'concepts', 'how-do-i', 'backend', 'client', 'open-source'])
     },
     {
         label: 'AI',
         icon: 'i-lucide-bot',
-        to: '/mcp-ai',
+        to: '/docs/mcp-ai',
         active: isSectionActive('mcp-ai')
     },
     {
-        label: 'Community',
-        icon: 'i-lucide-messages-square',
-        to: '/community/getting-help',
-        active: isSectionActive('community')
-    },
-    {
-        label: 'Modules',
+        label: 'OSS',
         icon: 'i-lucide-box',
         children: moduleItems.value
-    },
-    {
-        label: 'Resources',
-        icon: 'i-lucide-compass',
-        children: [
-            {
-                label: 'Packagist',
-                icon: 'i-lucide-box',
-                to: 'https://packagist.org/packages/evanschleret/formforge',
-                target: '_blank'
-            },
-            {
-                label: 'NPM',
-                icon: 'i-lucide-box',
-                to: 'https://www.npmjs.com/package/@evanschleret/formforgeclient',
-                target: '_blank'
-            },
-            {
-                label: 'MCP Endpoint',
-                icon: 'i-lucide-plug',
-                to: 'https://formforge.schleret.ch/mcp',
-                target: '_blank'
-            }
-        ]
     }
 ])
 
@@ -146,12 +117,6 @@ const formattedStars = computed<string>(() => {
                 variant="link"
                 :items="navigationItems"
                 class="hidden lg:flex"
-                :ui="{
-                    list: 'gap-1 xl:gap-1.5 flex-nowrap',
-                    item: 'shrink-0',
-                    link: 'px-3 py-2 text-sm font-medium',
-                    linkLabel: '!max-w-none !overflow-visible !text-clip !whitespace-nowrap'
-                }"
             />
         </template>
 

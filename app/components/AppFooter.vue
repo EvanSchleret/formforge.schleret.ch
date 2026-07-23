@@ -47,11 +47,12 @@ const columns = computed<FooterColumn[]>(() => [
     {
         title: 'Docs',
         links: [
-            { label: 'Getting Started', to: '/getting-started', icon: 'i-lucide-rocket' },
-            { label: 'Backend', to: '/backend/overview', icon: 'i-lucide-database' },
-            { label: 'Client', to: '/client/overview', icon: 'i-lucide-monitor' },
-            { label: 'MCP / AI', to: '/mcp-ai', icon: 'i-lucide-bot' },
-            { label: 'Community', to: '/community/getting-help', icon: 'i-lucide-messages-square' }
+            { label: 'Getting Started', to: '/docs/getting-started', icon: 'i-lucide-rocket' },
+            { label: 'Concepts', to: '/docs/concepts', icon: 'i-lucide-layers-3' },
+            { label: 'Backend', to: '/docs/backend/overview', icon: 'i-lucide-database' },
+            { label: 'Client', to: '/docs/client/overview', icon: 'i-lucide-monitor' },
+            { label: 'MCP / AI', to: '/docs/mcp-ai', icon: 'i-lucide-bot' },
+            { label: 'Open source', to: '/docs/open-source', icon: 'i-lucide-git-pull-request' }
         ]
     },
     {
@@ -83,29 +84,12 @@ const columns = computed<FooterColumn[]>(() => [
     }
 ])
 
-const showEmail = ref<boolean>(false)
-const email = ref<string>('')
-
-function revealEmail(): void {
-    if (showEmail.value) {
-        return
-    }
-
-    email.value = String.fromCharCode(
-        101, 118, 97, 110, 64, 115, 99, 104, 108, 101, 114, 101, 116, 46, 99, 104
-    )
-    showEmail.value = true
-}
-
-const emailHref = computed<string>(() => {
-    return `mailto:${email.value}`
-})
 </script>
 
 <template>
     <footer class="border-t border-default bg-elevated/30">
         <UContainer class="py-12 lg:py-16">
-            <div class="grid gap-10 md:grid-cols-2 xl:grid-cols-4">
+            <div class="grid gap-10 md:grid-cols-3">
                 <div
                     v-for="column in columns"
                     :key="column.title"
@@ -131,39 +115,6 @@ const emailHref = computed<string>(() => {
                     </div>
                 </div>
 
-                <div class="space-y-4">
-                    <p class="text-sm font-semibold text-toned">
-                        Contact
-                    </p>
-
-                    <p class="text-sm text-muted">
-                        Questions, feedback, or integration help.
-                    </p>
-
-                    <div class="flex flex-col gap-2">
-                        <UButton
-                            v-if="!showEmail"
-                            color="neutral"
-                            variant="outline"
-                            icon="i-lucide-mail"
-                            class="justify-start w-fit"
-                            @click="revealEmail"
-                        >
-                            Reveal email
-                        </UButton>
-
-                        <UButton
-                            v-else
-                            color="neutral"
-                            variant="link"
-                            icon="i-lucide-mail"
-                            :to="emailHref"
-                            class="justify-start px-0 w-fit"
-                        >
-                            {{ email }}
-                        </UButton>
-                    </div>
-                </div>
             </div>
         </UContainer>
 

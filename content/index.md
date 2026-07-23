@@ -19,12 +19,12 @@ orientation: horizontal
 Build deterministic forms with [FormForge]{.text-primary}.
 
 #description
-One backend source of truth for form schema, immutable revisions, secure HTTP APIs, staged uploads, and automation-ready submissions. Pair it with FormForge Client to render and manage forms in Nuxt 4.
+Build forms in Laravel and Nuxt with one schema, secure APIs, and a clear path to production.
 
 #links
   :::u-button
   ---
-  to: /getting-started/installation/backend
+  to: /docs/getting-started/installation/backend
   size: xl
   trailing-icon: i-lucide-arrow-right
   ---
@@ -33,47 +33,14 @@ One backend source of truth for form schema, immutable revisions, secure HTTP AP
 
   :::u-button
   ---
-  to: https://github.com/EvanSchleret/FormForge/stargazers
+  to: https://github.com/EvanSchleret/FormForge
   size: xl
   color: neutral
   variant: outline
   icon: i-lucide-github
   target: _blank
   ---
-  Star FormForge
-  :::
-
-  :::u-button
-  ---
-  to: https://github.com/EvanSchleret/FormForgeClient/stargazers
-  size: xl
-  color: neutral
-  variant: outline
-  icon: i-lucide-github
-  target: _blank
-  ---
-  Star FormForge Client
-  :::
-
-#default
-  :::prose-pre
-  ---
-  code: |
-    composer require evanschleret/formforge
-    php artisan formforge:install
-    php artisan migrate
-
-    bun add @evanschleret/formforgeclient
-  filename: quickstart.sh
-  ---
-
-  ```bash [quickstart.sh]
-  composer require evanschleret/formforge
-  php artisan formforge:install
-  php artisan migrate
-
-  bun add @evanschleret/formforgeclient
-  ```
+  View on GitHub
   :::
 ::
 
@@ -108,28 +75,6 @@ Start narrow, keep a deterministic backend core, then scale to advanced API and 
 
   :::u-page-feature
   ---
-  icon: i-lucide-route
-  ---
-  #title
-  Scoped routes with owner context
-
-  #description
-  Run endpoints under prefixes like `/users/{user}` or `/teams/{team}` and resolve ownership directly from route params.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-lucide-shield
-  ---
-  #title
-  Policy or gate authorization
-
-  #description
-  Add fail-closed authorization with scoped policy mode, endpoint abilities, and ownership-aware access checks.
-  :::
-
-  :::u-page-feature
-  ---
   icon: i-lucide-monitor
   ---
   #title
@@ -137,17 +82,6 @@ Start narrow, keep a deterministic backend core, then scale to advanced API and 
 
   #description
   Mount `<FormForgeRenderer>` with a form key and go live fast with built-in fetch, progress, and submit handling.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-lucide-layers-3
-  ---
-  #title
-  Architecture
-
-  #description
-  Understand how the backend and client share one schema and split responsibilities.
   :::
 
   :::u-page-feature
@@ -163,17 +97,6 @@ Start narrow, keep a deterministic backend core, then scale to advanced API and 
 
   :::u-page-feature
   ---
-  icon: i-lucide-circle-help
-  ---
-  #title
-  How do I?
-
-  #description
-  Start from a task instead of a package when you already know the outcome you want.
-  :::
-
-  :::u-page-feature
-  ---
   icon: i-lucide-sliders-horizontal
   ---
   #title
@@ -185,35 +108,13 @@ Start narrow, keep a deterministic backend core, then scale to advanced API and 
 
   :::u-page-feature
   ---
-  icon: i-lucide-bot
+  icon: i-lucide-panels-top-left
   ---
   #title
-  Submission automations
+  Full FormForge stack
 
   #description
-  Register sync or queued automation handlers to execute app business logic immediately after persisted submissions.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-lucide-file-down
-  ---
-  #title
-  Response exports (CSV/JSONL)
-
-  #description
-  Export submissions by form/version/date filters via HTTP, Facade, or Artisan for BI pipelines, audits, and data workflows.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-lucide-shield-ellipsis
-  ---
-  #title
-  GDPR retention engine
-
-  #description
-  Apply global, form-level, or response-level privacy policies with anonymization/deletion actions and dry-run controls.
+  Combine the Laravel backend and FormForge Client when you need a complete builder, renderer, and submission workflow.
   :::
 ::
 
@@ -221,112 +122,34 @@ Start narrow, keep a deterministic backend core, then scale to advanced API and 
 #title
 AI-ready docs with MCP Toolkit
 #description
-This wiki is exposed as an MCP server so AI assistants can discover and read your docs.
+Connect an MCP-compatible assistant to discover and read FormForge documentation as a source of truth.
 
-#links
-  :::u-button
+#features
+  :::u-page-feature
   ---
-  to: /mcp
-  color: neutral
-  variant: outline
-  icon: i-lucide-plug
+  icon: i-lucide-search
   ---
-  Open MCP endpoint
+  #title
+  Discover documentation
+  #description
+  Use `list-pages` to explore the complete documentation surface before selecting the exact page to read.
   :::
-
-  :::u-button
+  :::u-page-feature
   ---
-  to: /mcp-ai
-  icon: i-lucide-book-open
-  color: neutral
-  variant: outline
+  icon: i-lucide-file-text
   ---
-  Read MCP/AI guide
+  #title
+  Read exact pages
+  #description
+  Use `get-page` to retrieve the full Markdown source, examples, and resolution rules for a known path.
   :::
-
-  :::u-button
+  :::u-page-feature
   ---
-  to: /mcp-ai/connect-your-client
-  icon: i-lucide-settings-2
-  color: primary
-  variant: solid
+  icon: i-lucide-bot
   ---
-  Configure your MCP client
+  #title
+  Connect your client
+  #description
+  Configure Cursor, VS Code, Claude Code, Codex-compatible clients, or any HTTP MCP client.
   :::
-
-::card-group
-  :::card
-  ---
-  title: Built-in tools
-  icon: i-lucide-wrench
-  ---
-  `list-pages` and `get-page` are live and let assistants discover and read wiki content.
-  :::
-
-  :::card
-  ---
-  title: Zero-config discovery
-  icon: i-lucide-folder-search
-  ---
-  Add files under `server/mcp/tools`, `server/mcp/prompts`, and `server/mcp/resources`.
-  :::
-
-  :::card
-  ---
-  title: Works with common IDEs
-  icon: i-lucide-message-circle
-  ---
-  Connect from Cursor, VS Code, Claude Code, and other MCP clients with the `/mcp` URL.
-  :::
-::
-::
-
-::u-page-section{class="dark:bg-gradient-to-b from-neutral-950 to-neutral-900"}
-  :::callout
-  ---
-  icon: i-lucide-star
-  color: warning
-  variant: subtle
-  ---
-  If this wiki helped you ship faster, starring the repos has a direct impact on roadmap visibility and adoption.
-  :::
-
-  :::card-group
-    ::::card
-    ---
-    title: FormForge (Laravel backend)
-    icon: i-lucide-database
-    to: https://github.com/EvanSchleret/FormForge/stargazers
-    target: _blank
-    ---
-    [![FormForge Stars](https://img.shields.io/github/stars/EvanSchleret/FormForge?style=for-the-badge&logo=github)](https://github.com/EvanSchleret/FormForge/stargazers)
-    ::::
-
-    ::::card
-    ---
-    title: FormForge Client (Nuxt frontend)
-    icon: i-lucide-monitor
-    to: https://github.com/EvanSchleret/FormForgeClient/stargazers
-    target: _blank
-    ---
-    [![FormForge Client Stars](https://img.shields.io/github/stars/EvanSchleret/FormForgeClient?style=for-the-badge&logo=github)](https://github.com/EvanSchleret/FormForgeClient/stargazers)
-    ::::
-  :::
-
-  :::u-page-c-t-a
-  ---
-  links:
-    - label: FormForge backend package
-      to: 'https://github.com/EvanSchleret/FormForge'
-      target: _blank
-      icon: i-lucide-github
-    - label: FormForge Client package
-      to: 'https://github.com/EvanSchleret/FormForgeClient'
-      target: _blank
-      variant: subtle
-      icon: i-lucide-github
-  title: Ship forms with confidence
-  description: Keep business rules centralized, expose only what you need, and scale from one form to multi-owner production workflows.
-  class: dark:bg-neutral-950
-  ---
 ::

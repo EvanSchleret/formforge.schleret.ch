@@ -7,8 +7,7 @@ export default defineNuxtConfig({
         '@nuxt/content',
         'nuxt-og-image',
         'nuxt-llms',
-        '@nuxtjs/mcp-toolkit',
-        '@vercel/analytics'
+        '@nuxtjs/mcp-toolkit'
     ],
 
     devtools: {
@@ -45,6 +44,10 @@ export default defineNuxtConfig({
             siteUrl: process.env.SITE_URL,
             github: {
                 profile: 'https://github.com/EvanSchleret',
+                releaseRepositories: [
+                    'EvanSchleret/FormForge',
+                    'EvanSchleret/FormForgeClient'
+                ],
                 repositories: [
                     'EvanSchleret/FormForge',
                     'EvanSchleret/FormForgeClient',
@@ -54,6 +57,23 @@ export default defineNuxtConfig({
                 ]
             }
         }
+    },
+
+    routeRules: {
+        '/getting-started': { redirect: '/docs/getting-started' },
+        '/concepts': { redirect: '/docs/concepts' },
+        '/how-do-i': { redirect: '/docs/how-do-i' },
+        '/backend': { redirect: '/docs/backend/overview' },
+        '/client': { redirect: '/docs/client/overview' },
+        '/mcp-ai': { redirect: '/docs/mcp-ai' },
+        '/open-source': { redirect: '/docs/open-source' },
+        '/community': { redirect: '/docs/open-source' },
+        '/community/getting-help': { redirect: '/docs/open-source/getting-help' },
+        '/community/roadmaps': { redirect: '/docs/open-source/roadmap' },
+        '/community/roadmaps/backend': { redirect: '/docs/open-source/roadmap/backend' },
+        '/community/roadmaps/client': { redirect: '/docs/open-source/roadmap/client' },
+        '/community/release-notes': { redirect: '/docs/open-source/releases' },
+        '/community/**': { redirect: '/docs/open-source' }
     },
 
     experimental: {
@@ -88,21 +108,28 @@ export default defineNuxtConfig({
                 title: 'Getting Started',
                 contentCollection: 'docs',
                 contentFilters: [
-                    { field: 'path', operator: 'LIKE', value: '/getting-started%' }
+                    { field: 'path', operator: 'LIKE', value: '/docs/getting-started%' }
+                ]
+            },
+            {
+                title: 'Concepts',
+                contentCollection: 'docs',
+                contentFilters: [
+                    { field: 'path', operator: 'LIKE', value: '/docs/concepts%' }
                 ]
             },
             {
                 title: 'Backend',
                 contentCollection: 'docs',
                 contentFilters: [
-                    { field: 'path', operator: 'LIKE', value: '/backend%' }
+                    { field: 'path', operator: 'LIKE', value: '/docs/backend%' }
                 ]
             },
             {
                 title: 'Client',
                 contentCollection: 'docs',
                 contentFilters: [
-                    { field: 'path', operator: 'LIKE', value: '/client%' }
+                    { field: 'path', operator: 'LIKE', value: '/docs/client%' }
                 ]
             }
         ]

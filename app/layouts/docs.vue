@@ -13,39 +13,39 @@ const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
 
 const defaultSectionIcons: Record<string, string> = {
     'getting-started': 'i-lucide-rocket',
-    'architecture': 'i-lucide-layers-3',
+    'concepts': 'i-lucide-layers-3',
     'how-do-i': 'i-lucide-circle-help',
     'backend': 'i-lucide-database',
     'client': 'i-lucide-monitor',
     'mcp-ai': 'i-lucide-bot',
-    'community': 'i-lucide-messages-square'
+    'open-source': 'i-lucide-git-pull-request'
 }
 
 const defaultSectionPaths: Record<string, string> = {
-    'getting-started': '/getting-started',
-    'architecture': '/architecture',
-    'how-do-i': '/how-do-i',
-    'backend': '/backend/overview',
-    'client': '/client/overview',
-    'mcp-ai': '/mcp-ai',
-    'community': '/community/getting-help'
+    'getting-started': '/docs/getting-started',
+    'concepts': '/docs/concepts',
+    'how-do-i': '/docs/how-do-i',
+    'backend': '/docs/backend/overview',
+    'client': '/docs/client/overview',
+    'mcp-ai': '/docs/mcp-ai',
+    'open-source': '/docs/open-source'
 }
 
 const sectionOrder = [
     'getting-started',
-    'architecture',
+    'concepts',
     'how-do-i',
     'backend',
     'client',
     'mcp-ai',
-    'community'
+    'open-source'
 ]
 
 const sectionChildOrder: Record<string, string[]> = {
     'backend': ['overview', 'forms', 'http-api', 'operations'],
     'client': ['overview', 'composables', 'components', 'reference'],
     'mcp-ai': ['mcp-ai'],
-    'community': ['getting-help', 'roadmaps']
+    'open-source': ['', 'roadmap', 'releases', 'contributing', 'getting-help', 'security']
 }
 
 function hasPath(item: ContentNavigationItem): item is ContentNavigationItem & { path: string } {
@@ -57,7 +57,8 @@ function sectionKeyFromPath(path: string | undefined): string {
         return ''
     }
 
-    return path.split('/').filter(Boolean)[0] ?? ''
+    const segments = path.split('/').filter(Boolean)
+    return segments[0] === 'docs' ? (segments[1] ?? '') : (segments[0] ?? '')
 }
 
 function sectionChildKeyFromPath(path: string | undefined): string {
@@ -65,12 +66,13 @@ function sectionChildKeyFromPath(path: string | undefined): string {
         return ''
     }
 
-    return path.split('/').filter(Boolean)[1] ?? ''
+    const segments = path.split('/').filter(Boolean)
+    return segments[0] === 'docs' ? (segments[2] ?? '') : (segments[1] ?? '')
 }
 
-function normalizeNavigationItem(item: ContentNavigationItem, depth: number = 0): ContentNavigationItem | null {
+function normalizeNavigationItem(item: ContentNavigationItem, isSection: boolean = false): ContentNavigationItem | null {
     const children = (item.children ?? [])
-        .map(child => normalizeNavigationItem(child, depth + 1))
+        .map(child => normalizeNavigationItem(child))
         .filter((child): child is ContentNavigationItem => child !== null)
 
     const currentPath = hasPath(item) ? item.path : undefined
@@ -83,14 +85,8 @@ function normalizeNavigationItem(item: ContentNavigationItem, depth: number = 0)
     }
 
     const sectionKey = sectionKeyFromPath(resolvedPath)
-    const sectionPath = depth === 0
-        ? (defaultSectionPaths[sectionKey] ?? resolvedPath)
-        : resolvedPath
-    const icon = depth === 0
-        ? (typeof item.icon === 'string' && item.icon.startsWith('i-lucide-')
-            ? item.icon
-            : defaultSectionIcons[sectionKey])
-        : undefined
+    const sectionPath = isSection ? (defaultSectionPaths[sectionKey] ?? `/docs/${sectionKey}`) : resolvedPath
+    const icon = isSection ? defaultSectionIcons[sectionKey] : undefined
 
     return {
         ...item,
@@ -101,8 +97,11 @@ function normalizeNavigationItem(item: ContentNavigationItem, depth: number = 0)
 }
 
 const normalizedNavigation = computed<ContentNavigationItem[]>(() => {
-    return (navigation?.value ?? [])
-        .map(item => normalizeNavigationItem(item))
+    const docsRoot = (navigation?.value ?? []).find(item => hasPath(item) && (item.path === '/docs' || item.path === '/docs/.navigation'))
+    const source = docsRoot?.children ?? navigation?.value ?? []
+
+    return source
+        .map(item => normalizeNavigationItem(item, true))
         .filter((item): item is ContentNavigationItem => item !== null)
         .sort((a, b) => {
             const aKey = sectionKeyFromPath(a.path)
